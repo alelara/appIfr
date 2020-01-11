@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConsultaService } from 'src/app/services/consulta.service';
 import { OficinaRegistral } from 'src/app/model/Oficina.model';
 import { Respuesta } from 'src/app/model/Respuesta.model';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-desbloqueararea',
@@ -13,7 +14,7 @@ export class DesbloquearareaPage implements OnInit {
   oficinas: OficinaRegistral;
   respuesta: Respuesta;
 
-  constructor(public consultaService: ConsultaService) { 
+  constructor(public consultaService: ConsultaService,  public alertController: AlertController) { 
     this.oficinas = null;
     this.respuesta = null;
   }
@@ -35,6 +36,18 @@ export class DesbloquearareaPage implements OnInit {
       this.respuesta = res;
     });
     console.log('respuesta: ', this.respuesta);
+    this.presentAlert();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      subHeader: 'Cuentas Desbloquedas Correctamente!',
+      message: 'cuentas-->',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
   desbloquarArea(oficina: OficinaRegistral) {
